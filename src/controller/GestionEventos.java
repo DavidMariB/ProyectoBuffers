@@ -74,7 +74,7 @@ public class GestionEventos {
 		
 		actionListener_compararPalabras = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				call_medirPalabras();
+				call_compararPalabras();
 			}
 		};
 		view.getBtnCompararPalabras().addActionListener(actionListener_compararPalabras);
@@ -233,7 +233,7 @@ public class GestionEventos {
 	/* EJERCICIO 2
 	   EN EL CONTROLADOR LLAMAMOS AL METODO QUE COMPARA LAS PALABRAS Y SIMPLEMENTE TENEMOS QUE HACER UN IF
 	   PARA COMPROBAR SI EL NUMERO DE PALABRAS ES MAYOR O MENOR. SEGUN LAS PALABRAS QUE DETECTE ESCOGERA UNA CONDICION U OTRA*/
-	private void call_medirPalabras() {
+	private void call_compararPalabras() {
 		
 		try {
 			int i = model.compararPalabras(view.getFichero1().getText(), view.getLongitudFichero().getText());
@@ -245,9 +245,9 @@ public class GestionEventos {
 				view.showError("No existe el fichero");
 			}
 		} catch (NumberFormatException e) {
-			view.showError("No has introducido un numero correcto");
+			view.showError("El numero introducido no es correcto");
 		} catch (IOException e) {
-			view.showError("Hubo un problema leyendo el archivo");
+			view.showError("Ha ocurrido un error");
 		}
 	}
 

@@ -192,18 +192,18 @@ public class GestionDatos {
 		LibroVO lib = null;
 		//Creamos el fichero nuevo
 		//En el directorio he puesto // debido a que en Mac la ruta la coge así, lo digo por si a la hora de corregirlo te da error
-		File f = new File("libros//"+libro);
+		File file = new File("libros//"+libro);
 		//Comprobamos si existe
-		if(f.exists()) {
-			FileInputStream fis = new FileInputStream(f);
+		if(file.exists()) {
+			FileInputStream fis = new FileInputStream(file);
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			lib = (LibroVO) ois.readObject();
 			ois.close();
 			fis.close();
 			//Si el libro existe entonces antes de anyadirlo, lo que hacemos es borrar el que havia y crea uno nuevo
-			f.delete();
-			f.createNewFile();
-			FileOutputStream fos = new FileOutputStream(f);
+			file.delete();
+			file.createNewFile();
+			FileOutputStream fos = new FileOutputStream(file);
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			lib.setPaginas(paginas);
 			oos.writeObject(lib);
@@ -221,14 +221,14 @@ public class GestionDatos {
 	   QUE EL STRING QUE NOS INTRODUCE EL USUARIO*/
 	public int compararPalabras(String fichero, String palabras) throws NumberFormatException, IOException {
 		int i = 0;
-		int pals = Integer.parseInt(palabras);
+		int palabra = Integer.parseInt(palabras);
 		File file = new File(fichero);
 		if(file.exists()) {
 			FileReader fr = new FileReader(file);
 			BufferedReader br = new BufferedReader(fr);
 			String s;
 			while((s = br.readLine()) != null) {
-				if(s.length()>pals) {
+				if(s.length()>palabra) {
 					i++;
 				}
 			}
