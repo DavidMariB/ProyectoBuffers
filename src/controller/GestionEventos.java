@@ -14,7 +14,7 @@ public class GestionEventos {
 	private GestionDatos model;
 	private LaunchView view;
 	private ActionListener actionListener_comparar, actionListener_buscar,actionListener_copiar,actionListener_guardar,
-	actionListener_recuperar,actionListener_recuperarTodos;
+	actionListener_recuperar,actionListener_recuperarTodos,actionListener_modificarLibro,actionListener_compararPalabras;
 
 	public GestionEventos(GestionDatos model, LaunchView view) {
 		this.model = model;
@@ -63,6 +63,21 @@ public class GestionEventos {
 			}
 		};
 		view.getBtnRecuperarTodos().addActionListener(actionListener_recuperarTodos);
+		
+		actionListener_modificarLibro = new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				call_modificarLibro();
+			}
+		};
+		
+		view.getBtnModificarLibro().addActionListener(actionListener_modificarLibro);
+		
+		actionListener_compararPalabras = new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				call_medirPalabras();
+			}
+		};
+		view.getBtnCompararPalabras().addActionListener(actionListener_compararPalabras);
 	}
 
 	private void call_compararContenido(){
@@ -185,6 +200,54 @@ public class GestionEventos {
 			view.getTextArea().setText(resultado.toString());
 		} catch (Exception e) {
 			view.showError("Se ha producido un error");
+		}
+	}
+	
+	/* EJERCICIO 1
+	   AQUÍ LLAMAMOS AL METODO QUE MODIFICA EL LIBRO Y RECOGEMOS LOS CAMPOS DE TITULO Y PAGINAS.
+	   CUANDO HACEMOS ESTO MOSTRAMOS LA INFORMACION DEL LIBRO UNA VEZ MODIFICADO */
+	private void call_modificarLibro() {
+		try {
+			LibroVO libro = model.modificar_libro(view.getTitulo().getText(), view.getPaginas().getText());
+			if(libro != null) {
+				StringBuilder s = new StringBuilder();
+				s.append("Libro actualizado: \n");
+				s.append("Título: "+libro.getTitulo()+" \n");
+				s.append("Autor: "+libro.getAutor()+" \n");
+				s.append("Año: "+libro.getAnyo()+" \n");
+				s.append("Editor: "+libro.getEditor()+" \n");
+				s.append("Nº de páginas: "+libro.getPaginas()+" \n");
+				view.getTextArea().setText(s.toString());
+			} else {
+				view.showError("El libro no existe");
+			}
+			
+		} catch (ClassNotFoundException e) {
+			view.showError("Hubo un problema leyendo el libro");
+		} catch (IOException e) {
+			view.showError("Hubo un problema leyendo el fichero");
+		}
+	}
+	
+	
+	/* EJERCICIO 2
+	   EN EL CONTROLADOR LLAMAMOS AL METODO QUE COMPARA LAS PALABRAS Y SIMPLEMENTE TENEMOS QUE HACER UN IF
+	   PARA COMPROBAR SI EL NUMERO DE PALABRAS ES MAYOR O MENOR. SEGUN LAS PALABRAS QUE DETECTE ESCOGERA UNA CONDICION U OTRA*/
+	private void call_medirPalabras() {
+		
+		try {
+			int i = model.compararPalabras(view.getFichero1().getText(), view.getLongitudFichero().getText());
+			if(i > 0) {
+				view.getTextArea().setText("Existe(n) "+i+" palabra(s) con longitud mas grande que "+view.getLongitudFichero().getText());
+			} else if(i==0) {
+				view.showError("No existe ninguna palabra mas grande");
+			} else {
+				view.showError("No existe el fichero");
+			}
+		} catch (NumberFormatException e) {
+			view.showError("No has introducido un numero correcto");
+		} catch (IOException e) {
+			view.showError("Hubo un problema leyendo el archivo");
 		}
 	}
 

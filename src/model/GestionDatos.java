@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class GestionDatos {
 
@@ -182,4 +183,62 @@ public class GestionDatos {
 		}
 		return libros;
 	}
+	
+	/* EJERCICIO 1. 
+	   LO QUE HACEMOS ES CREARNOS UN NUEVO FICHERO Y COMPROBAMOS SI EXISTE.
+	   SI ES EL CASO, LO QUE HAREMOS SERÁ BORRAR EL LIBRO QUE YA TENÍAMOS Y 
+	   REEMPLAZARLO POR EL NUEVO.*/
+	public LibroVO modificar_libro(String libro, String paginas) throws ClassNotFoundException, IOException {
+		LibroVO lib = null;
+		//Creamos el fichero nuevo
+		//En el directorio he puesto // debido a que en Mac la ruta la coge así, lo digo por si a la hora de corregirlo te da error
+		File f = new File("libros//"+libro);
+		//Comprobamos si existe
+		if(f.exists()) {
+			FileInputStream fis = new FileInputStream(f);
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			lib = (LibroVO) ois.readObject();
+			ois.close();
+			fis.close();
+			//Si el libro existe entonces antes de anyadirlo, lo que hacemos es borrar el que havia y crea uno nuevo
+			f.delete();
+			f.createNewFile();
+			FileOutputStream fos = new FileOutputStream(f);
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			lib.setPaginas(paginas);
+			oos.writeObject(lib);
+			fos.close();
+			oos.close();
+		}else {
+			return null;
+		}
+		return lib;
+	}
+	
+	/* EJERCICIO 2
+	   AQUÍ, LO PRIMERO QUE DEBEMOS HACER ES PARSEAR LAS PALABRAS A UN INT PARA PODER COMPARALAS.
+	   UNA VEZ HECHO ESTO, LEEMOS EL FICHERO LINEA POR LINEA, Y COMPARAMOS SI TIENE UNA MAYOR LONGITUD
+	   QUE EL STRING QUE NOS INTRODUCE EL USUARIO*/
+	public int compararPalabras(String fichero, String palabras) throws NumberFormatException, IOException {
+		int i = 0;
+		int pals = Integer.parseInt(palabras);
+		File file = new File(fichero);
+		if(file.exists()) {
+			FileReader fr = new FileReader(file);
+			BufferedReader br = new BufferedReader(fr);
+			String s;
+			while((s = br.readLine()) != null) {
+				if(s.length()>pals) {
+					i++;
+				}
+			}
+			br.close();
+			fr.close();
+		} else {
+			return -1;
+		}
+		return i;
+	}
+	
+	
 }

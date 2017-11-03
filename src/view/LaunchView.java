@@ -11,12 +11,15 @@ import java.awt.Color;
 
 public class LaunchView extends JFrame {
 
-	private JButton comparar,buscar,copiar,btnGuardar,btnRecuperar,btnRecuperarTodos;
+	private JButton comparar,buscar,copiar,btnGuardar,btnRecuperar,btnRecuperarTodos,btnModificarLibro;
 	private JTextArea textArea;
 	private JTextField fichero1,fichero2,palabra,titulo,autor,anyo,editor,paginas;
 	private JLabel label_f1,label_f2,label_pal,label_titulo,label_autor,label_anyo,label_editor,label_paginas;
 	private JCheckBox primera;
 	private JPanel campos_ficheros,acciones_ficheros,libros,acciones_libros,campos_libros,ficheros,consola,global;
+	private JLabel lblLongitudFichero;
+	private JTextField longitudFichero;
+	private JButton btnCompararPalabras;
 	
 	public LaunchView() {
 		
@@ -33,6 +36,16 @@ public class LaunchView extends JFrame {
         acciones_ficheros = new JPanel();
         FlowLayout flowLayout_1 = (FlowLayout) acciones_ficheros.getLayout();
         ficheros.add(acciones_ficheros, BorderLayout.SOUTH);
+        
+        lblLongitudFichero = new JLabel("Longitud Palabra:");
+        acciones_ficheros.add(lblLongitudFichero);
+        
+        longitudFichero = new JTextField();
+        acciones_ficheros.add(longitudFichero);
+        longitudFichero.setColumns(10);
+        
+        btnCompararPalabras = new JButton("Comparar Palabras");
+        acciones_ficheros.add(btnCompararPalabras);
         
         comparar = new JButton("Comparar contenido");
         acciones_ficheros.add(comparar);
@@ -118,6 +131,10 @@ public class LaunchView extends JFrame {
 		                btnRecuperarTodos = new JButton("Recuperar Todos");
 		                btnRecuperarTodos.setPreferredSize(new Dimension(150, 26));
 		                acciones_libros.add(btnRecuperarTodos);
+		                
+		                btnModificarLibro = new JButton("Modificar Libro");
+		                btnModificarLibro.setPreferredSize(new Dimension(150, 26));
+		                acciones_libros.add(btnModificarLibro);
 	}	
 	
 	public JButton getComparar() {
@@ -255,6 +272,30 @@ public class LaunchView extends JFrame {
 		this.btnRecuperarTodos = btnRecuperarTodos;
 	}
 	
+	public JButton getBtnModificarLibro() {
+		return btnModificarLibro;
+	}
+	
+	public void setBtnModificarLibro(JButton btnModificarLibro) {
+		this.btnModificarLibro = btnModificarLibro;
+	}
+	
+	public JTextField getLongitudFichero() {
+		return longitudFichero;
+	}
+
+	public void setLongitudFichero(JTextField longitudFichero) {
+		this.longitudFichero = longitudFichero;
+	}
+
+	public JButton getBtnCompararPalabras() {
+		return btnCompararPalabras;
+	}
+
+	public void setBtnCompararPalabras(JButton btnCompararPalabras) {
+		this.btnCompararPalabras = btnCompararPalabras;
+	}
+
 	public void limpiarCampos() {
 		titulo.setText("");
 		autor.setText("");
